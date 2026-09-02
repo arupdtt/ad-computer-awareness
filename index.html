@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AD - COMPUTER AWARENESS</title>
+  <style>
+    :root {
+      --bg-dark: #0f172a;
+      --panel-bg: #1e293b;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.12);
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: #334155;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      display: flex;
+      height: 100vh;
+      background-color: var(--bg-dark);
+      color: var(--text);
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Sidebar / Drawer */
+    aside {
+      width: 360px;
+      min-width: 300px;
+      background: var(--panel-bg);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      z-index: 50;
+      transition: transform 0.3s ease;
+    }
+
+    .header-box {
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand-title {
+      font-size: 1.15rem;
+      color: var(--accent);
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .header-box p {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .search-box {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--bg-dark);
+      color: var(--text);
+      font-size: 0.85rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .search-box input:focus {
+      border-color: var(--accent);
+    }
+
+    .pdf-list {
+      flex: 1;
+      overflow-y: auto;
+      list-style: none;
+      padding: 10px;
+    }
+
+    .pdf-item {
+      padding: 12px 14px;
+      margin-bottom: 6px;
+      border-radius: 8px;
+      cursor: pointer;
+      border: 1px solid transparent;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      transition: all 0.15s ease-in-out;
+    }
+
+    .pdf-item:hover {
+      background: var(--accent-soft);
+      border-color: var(--border);
+    }
+
+    .pdf-item.active {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+    }
+
+    .pdf-title {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .pdf-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.74rem;
+      color: var(--text-muted);
+    }
+
+    /* Main Reader View */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      background: #0b0f19;
+      min-width: 0;
+    }
+
+    .top-bar {
+      height: 54px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      background: var(--panel-bg);
+      gap: 12px;
+    }
+
+    .left-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      overflow: hidden;
+    }
+
+    /* Mobile Drawer Toggle */
+    .menu-btn {
+      display: none;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+
+    .top-bar h2 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .download-btn {
+      font-size: 0.78rem;
+      color: var(--accent);
+      text-decoration: none;
+      padding: 6px 12px;
+      border: 1px solid var(--accent);
+      border-radius: 4px;
+      transition: all 0.2s;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .download-btn:hover {
+      background: var(--accent);
+      color: #0f172a;
+    }
+
+    .viewer-frame {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Dimmed Overlay for Mobile View */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+      z-index: 40;
+      backdrop-filter: blur(2px);
+    }
+
+    /* Mobile Breakpoint */
+    @media (max-width: 768px) {
+      aside {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 82%;
+        max-width: 320px;
+        transform: translateX(-100%);
+        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.4);
+      }
+
+      aside.open {
+        transform: translateX(0);
+      }
+
+      .menu-btn {
+        display: inline-flex;
+      }
+
+      .sidebar-overlay.active {
+        display: block;
+      }
+
+      .top-bar {
+        padding: 0 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+  <aside id="sidebar">
+    <div class="header-box">
+      <h1 class="brand-title">AD - COMPUTER AWARENESS</h1>
+      <p>17 Modules • Study Notes & Capsules</p>
+    </div>
+
+    <div class="search-box">
+      <input type="text" id="search" placeholder="Search module or topic..." onkeyup="filterList()" />
+    </div>
+
+    <ul class="pdf-list" id="pdf-list"></ul>
+  </aside>
+
+  <main>
+    <div class="top-bar">
+      <div class="left-controls">
+        <button class="menu-btn" onclick="toggleSidebar()" aria-label="Toggle Syllabus Menu">☰</button>
+        <h2 id="current-title">Select a topic</h2>
+      </div>
+      <a id="download-link" href="#" target="_blank" class="download-btn" download>Open Tab</a>
+    </div>
+    <iframe id="pdf-viewer" class="viewer-frame" src=""></iframe>
+  </main>
+
+  <script>
+    const modules = [
+      { id: 1, title: "Introduction to Computers", file: "intro_computers.pdf" },
+      { id: 2, title: "Computer Fundamentals", file: "fundamentals.pdf" },
+      { id: 3, title: "Generations of Computer", file: "generations.pdf" },
+      { id: 4, title: "Computer Abbreviations", file: "abbreviations.pdf" },
+      { id: 5, title: "Memory", file: "memory.pdf" },
+      { id: 6, title: "Computer Shortcut Keys", file: "shortcuts.pdf" },
+      { id: 7, title: "Hardware", file: "hardware.pdf" },
+      { id: 8, title: "Software", file: "software.pdf" },
+      { id: 9, title: "DBMS", file: "dbms.pdf" },
+      { id: 10, title: "MS Word", file: "ms_word.pdf" },
+      { id: 11, title: "MS Excel", file: "ms_excel.pdf" },
+      { id: 12, title: "MS PowerPoint", file: "ms_powerpoint.pdf" },
+      { id: 13, title: "Networking", file: "networking.pdf" },
+      { id: 14, title: "Internet", file: "internet.pdf" },
+      { id: 15, title: "Cyber Security and IT Act", file: "cyber_security_it_act.pdf" },
+      { id: 16, title: "Number System", file: "number_system.pdf" },
+      { id: 17, title: "Social Media and Artificial Intelligence", file: "ai_social_media.pdf" }
+    ];
+
+    const listElement = document.getElementById("pdf-list");
+    const viewer = document.getElementById("pdf-viewer");
+    const currentTitle = document.getElementById("current-title");
+    const downloadLink = document.getElementById("download-link");
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("overlay");
+
+    function toggleSidebar() {
+      sidebar.classList.toggle("open");
+      overlay.classList.toggle("active");
+    }
+
+    function renderList(items) {
+      listElement.innerHTML = "";
+      items.forEach((item, index) => {
+        const li = document.createElement("li");
+        li.className = `pdf-item ${index === 0 ? "active" : ""}`;
+        li.innerHTML = `
+          <span class="pdf-title">${item.id}. ${item.title}</span>
+          <div class="pdf-meta">
+            <span>1 PDF</span>
+            <span>Study Notes</span>
+          </div>
+        `;
+        li.onclick = () => {
+          loadPdf(item, li);
+          if (window.innerWidth <= 768) {
+            toggleSidebar();
+          }
+        };
+        listElement.appendChild(li);
+      });
+    }
+
+    function loadPdf(item, element) {
+      const pdfPath = `pdfs/${item.file}#toolbar=1&navpanes=0`;
+      viewer.src = pdfPath;
+      currentTitle.textContent = `${item.id}. ${item.title}`;
+      downloadLink.href = `pdfs/${item.file}`;
+
+      document.querySelectorAll(".pdf-item").forEach((el) => el.classList.remove("active"));
+      if (element) element.classList.add("active");
+    }
+
+    function filterList() {
+      const query = document.getElementById("search").value.toLowerCase();
+      const filtered = modules.filter(m => m.title.toLowerCase().includes(query));
+      renderList(filtered);
+    }
+
+    // Initialize list & display the first module by default
+    renderList(modules);
+    if (modules.length > 0) {
+      loadPdf(modules[0], listElement.children[0]);
+    }
+  </script>
+</body>
+</html>
