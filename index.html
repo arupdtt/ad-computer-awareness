@@ -31,7 +31,6 @@
       position: relative;
     }
 
-    /* Sidebar / Drawer */
     aside {
       width: 360px;
       min-width: 300px;
@@ -125,7 +124,6 @@
       color: var(--text-muted);
     }
 
-    /* Main Reader View */
     main {
       flex: 1;
       display: flex;
@@ -198,6 +196,7 @@
       width: 100%;
       height: 100%;
       border: none;
+      background: #fff;
     }
 
     .sidebar-overlay {
@@ -262,13 +261,12 @@
         <button class="menu-btn" onclick="toggleSidebar()" aria-label="Toggle Syllabus Menu">☰</button>
         <h2 id="current-title">Select a topic</h2>
       </div>
-      <a id="download-link" href="#" target="_blank" class="download-btn" download>Open Tab</a>
+      <a id="download-link" href="#" target="_blank" class="download-btn">Open File</a>
     </div>
     <iframe id="pdf-viewer" class="viewer-frame" src=""></iframe>
   </main>
 
   <script>
-    // File names aligned to your GitHub folder upload
     const modules = [
       { id: 1, title: "Introduction to Computers", file: "Introduction_to_Computers.pdf" },
       { id: 2, title: "Computer Fundamentals", file: "Computer_Fundamentals.pdf" },
@@ -309,8 +307,8 @@
         li.innerHTML = `
           <span class="pdf-title">${item.id}. ${item.title}</span>
           <div class="pdf-meta">
-            <span>1 PDF</span>
-            <span>Study Notes</span>
+            <span>Module ${item.id}</span>
+            <span>Verified Notes</span>
           </div>
         `;
         li.onclick = () => {
@@ -324,10 +322,20 @@
     }
 
     function loadPdf(item, element) {
-      const pdfPath = `pdfs/${item.file}#toolbar=1&navpanes=0`;
-      viewer.src = pdfPath;
+      // Build the absolute live URL for Google Viewer compatibility
+      const directPdfUrl = `${window.location.origin}/ad-computer-awareness/pdfs/${item.file}`;
+      
+      // Use Google Docs viewer on mobile to bypass mobile Chrome iframe limits
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      
+      if (isMobile) {
+        viewer.src = `https://docs.google.com/gview?embedded=true&url=${encodeURIComponent(directPdfUrl)}`;
+      } else {
+        viewer.src = `pdfs/${item.file}#toolbar=1&navpanes=0`;
+      }
+
       currentTitle.textContent = `${item.id}. ${item.title}`;
-      downloadLink.href = `pdfs/${item.file}`;
+      downloadLink.href = directPdfUrl;
 
       document.querySelectorAll(".pdf-item").forEach((el) => el.classList.remove("active"));
       if (element) element.classList.add("active");
@@ -346,4 +354,6 @@
   </script>
 </body>
 </html>
+
+
 
