@@ -153,7 +153,6 @@
       overflow: hidden;
     }
 
-    /* Mobile Drawer Toggle */
     .menu-btn {
       display: none;
       background: transparent;
@@ -201,7 +200,6 @@
       border: none;
     }
 
-    /* Dimmed Overlay for Mobile View */
     .sidebar-overlay {
       display: none;
       position: fixed;
@@ -211,7 +209,6 @@
       backdrop-filter: blur(2px);
     }
 
-    /* Mobile Breakpoint */
     @media (max-width: 768px) {
       aside {
         position: fixed;
@@ -271,24 +268,25 @@
   </main>
 
   <script>
+    // File names aligned to your GitHub folder upload
     const modules = [
-      { id: 1, title: "Introduction to Computers", file: "intro_computers.pdf" },
-      { id: 2, title: "Computer Fundamentals", file: "fundamentals.pdf" },
-      { id: 3, title: "Generations of Computer", file: "generations.pdf" },
-      { id: 4, title: "Computer Abbreviations", file: "abbreviations.pdf" },
-      { id: 5, title: "Memory", file: "memory.pdf" },
-      { id: 6, title: "Computer Shortcut Keys", file: "shortcuts.pdf" },
-      { id: 7, title: "Hardware", file: "hardware.pdf" },
-      { id: 8, title: "Software", file: "software.pdf" },
-      { id: 9, title: "DBMS", file: "dbms.pdf" },
-      { id: 10, title: "MS Word", file: "ms_word.pdf" },
-      { id: 11, title: "MS Excel", file: "ms_excel.pdf" },
-      { id: 12, title: "MS PowerPoint", file: "ms_powerpoint.pdf" },
-      { id: 13, title: "Networking", file: "networking.pdf" },
-      { id: 14, title: "Internet", file: "internet.pdf" },
-      { id: 15, title: "Cyber Security and IT Act", file: "cyber_security_it_act.pdf" },
-      { id: 16, title: "Number System", file: "number_system.pdf" },
-      { id: 17, title: "Social Media and Artificial Intelligence", file: "ai_social_media.pdf" }
+      { id: 1, title: "Introduction to Computers", file: "Introduction_to_Computers.pdf" },
+      { id: 2, title: "Computer Fundamentals", file: "Computer_Fundamentals.pdf" },
+      { id: 3, title: "Generations of Computer", file: "Generations_of_Computer.pdf" },
+      { id: 4, title: "Computer Abbreviations", file: "Computer_Abbreviations.pdf" },
+      { id: 5, title: "Memory", file: "Memory.pdf" },
+      { id: 6, title: "Computer Shortcut Keys", file: "Computer_Shortcut_Keys.pdf" },
+      { id: 7, title: "Hardware", file: "Hardware.pdf" },
+      { id: 8, title: "Software", file: "Software.pdf" },
+      { id: 9, title: "DBMS", file: "DBMS.pdf" },
+      { id: 10, title: "MS Word", file: "MS_Word.pdf" },
+      { id: 11, title: "MS Excel", file: "MS_Excel.pdf" },
+      { id: 12, title: "MS PowerPoint", file: "MS_PowerPoint.pdf" },
+      { id: 13, title: "Networking", file: "Networking.pdf" },
+      { id: 14, title: "Internet", file: "Internet.pdf" },
+      { id: 15, title: "Cyber Security and IT Act", file: "Cyber_Security_and_IT_Act.pdf" },
+      { id: 16, title: "Number System", file: "Number_Sysytem.pdf" },
+      { id: 17, title: "Social Media and Artificial Intelligence", file: "Social_Media_and_Artificial_Intelligence.pdf" }
     ];
 
     const listElement = document.getElementById("pdf-list");
@@ -341,7 +339,6 @@
       renderList(filtered);
     }
 
-    // Initialize list & display the first module by default
     renderList(modules);
     if (modules.length > 0) {
       loadPdf(modules[0], listElement.children[0]);
@@ -349,3 +346,4 @@
   </script>
 </body>
 </html>
+
